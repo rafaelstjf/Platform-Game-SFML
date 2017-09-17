@@ -1,19 +1,14 @@
 #include "Jogador.h"
 
-Jogador::Jogador(sf::Vector2f tamanho)
+Jogador::Jogador(sf::Texture &textura, sf::Vector2u imageCount, float velocidade, float tempoTroca):
+animation(textura, imageCount, tempoTroca)
 {
-    string caminho = "Texturas/Jogador/";
-    string extensao = ".png";
-    //jogador.setSize({32, 32}); //cria o retangulo do tamanho desejado
-    /*if (!textura.loadFromFile("Texturas/idle.png"))
-        cout << "Erro ao carregar textura!" << endl;
-        */
-    for (int i = 0; i < 4; i++)
-    {
-        textura[i].loadFromFile( caminho+ to_string(i) + extensao);
-    }
-    jogador.setTexture(textura[0]);
-    jogador.setTextureRect(sf::IntRect(0, 0, 32, 32));
+    this->velocidade = velocidade;
+    linha = 0;
+    direita = true;
+    corpo.setSize(sf::Vector2f(100.0, 100.0));
+    corpo.setPosition(50.0, 50.0);
+    corpo.setTexture(textura);
 }
 Jogador::~Jogador()
 {
@@ -24,23 +19,23 @@ void Jogador::desenha(sf::RenderWindow &window)
 {
     window.draw(jogador);
 }
-void Jogador::move(sf::Vector2f distancia)
-// move o jogador até as coordenadas do vetor
+void Jogador::atualiza(float deltaTime)
 {
-    jogador.move(distancia);
-}
-void Jogador::setPos(sf::Vector2f posicao)
-//coloca o jogador na posicao das coordenadas do vetor
-{
-    jogador.setPosition(posicao);
-}
-void Jogador::atFrame(int ind)
-{
-    jogador.setTexture(textura[ind]);
-}
-double Jogador::getRotacao(){
-    return jogador.getRotation();
-}
-void Jogador::transforma(double val){
-    jogador.transform(val);
+    sf::Vector2f movimento(0.0f, 0.0f); //vetor de movimento do player
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+        movimento.x += velocidade * deltaTime;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+        movimento.x -= velocidade * deltaTime;
+    if (movement.x == 0)
+        row = 0; //animacao de idle
+    else
+    {
+        if (movimento.x > 0)
+            direita = true;
+        else
+            direita = false;
+    }
+    animation.update(linha, deltaTime, direita);
+    corpo.setTextureRect(animation.uvRect);
+    corpo.move(movimento);
 }

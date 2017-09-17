@@ -17,21 +17,26 @@ sf::Text drawText(string str, sf::Font font, int size, int x, int y, int t)
     text.setRotation(t);
     return text;
 }
-void anda(Jogador &jogador);
 int main()
 {
-    Jogador jogador({32, 32});
-
+    //Inicializa as variaveis
+    float deltaTime = 0.0f
+    sf::Clock clock;    
+    //Carrega as texturas
+    sf::Texture texturaJogador;
+    texturaJogador.loadFromFile("Texturas/Jogador.png");
     //Cria a janela
     sf::RenderWindow janela;
     janela.create(sf::VideoMode(800, 600), "Janela", sf::Style::Titlebar | sf::Style::Close);
     // janela.setPosition({100, 100});
 
-    //executa uma sequencia de eventos enquanto a janela está aberta
+    //Inicializa os objetos
+    Jogador jogador(texturaJogador, sf::Vector2u(3,3), 0.1f, )
+    //executa uma sequencia de eventos enquanto a janela est� aberta
     while (janela.isOpen())
     {
         sf::Event evento;
-        anda(jogador);
+        deltaTime = clock.restart().asSeconds(); 
         while (janela.pollEvent(evento))
         {
             switch (evento.type)
@@ -42,7 +47,8 @@ int main()
             }
         }
         janela.clear();
-
+        jogador.atualiza(deltaTime);
+        janela.clear();
         jogador.desenha(janela);
         janela.display();
     }
@@ -73,6 +79,6 @@ void anda(Jogador &jogador)
         jogador.move({0, movespeed});
     }else if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
         jogador.atFrame(0);
-        
+
     }
 }
