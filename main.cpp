@@ -4,6 +4,9 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "Jogador.h"
+#include "LifeMushroom.h"
+#include "Flower.h"
+#include "Background.h"
 
 using namespace std;
 sf::Text drawText(string str, sf::Font font, int size, int x, int y, int t)
@@ -20,23 +23,25 @@ sf::Text drawText(string str, sf::Font font, int size, int x, int y, int t)
 int main()
 {
     //Inicializa as variaveis
-    float deltaTime = 0.0f
-    sf::Clock clock;    
+    float deltaTime = 0.0f;
+    sf::Clock clock;
     //Carrega as texturas
-    sf::Texture texturaJogador;
-    texturaJogador.loadFromFile("Texturas/Jogador.png");
+    //sf::View view1(sf::FloatRect(200, 200, 300, 200));    
     //Cria a janela
     sf::RenderWindow janela;
     janela.create(sf::VideoMode(800, 600), "Janela", sf::Style::Titlebar | sf::Style::Close);
     // janela.setPosition({100, 100});
 
     //Inicializa os objetos
-    Jogador jogador(texturaJogador, sf::Vector2u(3,3), 0.1f, )
+    Jogador jogador(100.0f, 0.1f);
+    LifeMushroom monster({100.0,100.0});
+    Flower flor({190.0, 100.0});
+    Background backg;
     //executa uma sequencia de eventos enquanto a janela est� aberta
     while (janela.isOpen())
     {
         sf::Event evento;
-        deltaTime = clock.restart().asSeconds(); 
+        deltaTime = clock.restart().asSeconds();
         while (janela.pollEvent(evento))
         {
             switch (evento.type)
@@ -46,39 +51,21 @@ int main()
                 janela.close();
             }
         }
+        //Colisao Cogumelo
+        if(jogador.getGlobalBounds().intersects(monster.getGlobalBounds()))
+            jogador.setBigMario(true);
+            if(jogador.getGlobalBounds().intersects(flor.getGlobalBounds()))
+            jogador.setFireMario(true);
+        jogador.atualiza(deltaTime, janela);        
+        monster.atualiza(deltaTime);
         janela.clear();
-        jogador.atualiza(deltaTime);
-        janela.clear();
+        backg.desenha(janela);
+        monster.desenha(janela);        
         jogador.desenha(janela);
+        flor.desenha(janela);
         janela.display();
     }
     return 0;
 }
 
-void anda(Jogador &jogador)
-{
-    const float movespeed = 0.1;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-    {
-        jogador.move({movespeed, 0});
-        jogador.atFrame(1);
-        jogador.atFrame(2);
-        jogador.atFrame(3);
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-    {
-        jogador.transforma(90);
-        jogador.move({-movespeed, 0});
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-    {
-        jogador.move({0, -movespeed});
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-    {
-        jogador.move({0, movespeed});
-    }else if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
-        jogador.atFrame(0);
 
-    }
-}
