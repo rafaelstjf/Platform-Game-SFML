@@ -30,3 +30,10 @@
 *.exe
 *.out
 *.app
+
+*cbp
+*layout
+/bin
+/obj
+/SFML-2.4.2
+/.vscode

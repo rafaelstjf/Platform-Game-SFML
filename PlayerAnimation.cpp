@@ -1,8 +1,8 @@
-#include "Animation.h"
-Animation::Animation()
+#include "PlayerAnimation.h"
+PlayerAnimation::PlayerAnimation()
 {
 }
-Animation::Animation(sf::Texture &texture, sf::Vector2u imageCount, float switchTime)
+PlayerAnimation::PlayerAnimation(sf::Texture &texture, sf::Vector2u imageCount, float switchTime)
 {
 
     this->imageCount = imageCount;
@@ -12,7 +12,7 @@ Animation::Animation(sf::Texture &texture, sf::Vector2u imageCount, float switch
     uvRect.width = texture.getSize().x / float(imageCount.x);
     uvRect.height = texture.getSize().y / float(imageCount.y);
 }
-void Animation::update(int row, float deltaTime, bool faceRight, bool idle)
+void PlayerAnimation::update(int row, float deltaTime, bool faceRight, bool idle)
 {
     /*if (currentImage.x == 0 && currentImage.y != 0)
         currentImage.y = row;
@@ -51,6 +51,6 @@ void Animation::update(int row, float deltaTime, bool faceRight, bool idle)
     }
 }
 
-Animation::~Animation()
+PlayerAnimation::~PlayerAnimation()
 {
 }

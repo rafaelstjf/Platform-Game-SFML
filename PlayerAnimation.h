@@ -1,8 +1,8 @@
-#ifndef ANIMATION_H
-#define ANIMATION_H
+#ifndef PLAYERANIMATION_H
+#define PLAYERANIMATION_H
 #include <SFML/Graphics.hpp>
 
-class Animation{
+class PlayerAnimation{
     private:
     //usa vector2u pois nunca vai ser menor do que zero
     sf::Vector2u imageCount; //guarda a quantidade de imagens em cada coluna
@@ -12,8 +12,8 @@ class Animation{
     public:
     sf::IntRect uvRect;
     void update(int row, float deltaTime, bool faceRight, bool idle );
-    Animation(sf::Texture& texture, sf::Vector2u imageCount, float switchTime);
-    Animation();
-    ~Animation();
+    PlayerAnimation(sf::Texture& texture, sf::Vector2u imageCount, float switchTime);
+    PlayerAnimation();
+    ~PlayerAnimation();
 };
 #endif
