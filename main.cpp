@@ -26,7 +26,7 @@ int main()
     float deltaTime = 0.0f;
     sf::Clock clock;
     //Carrega as texturas
-    //sf::View view1(sf::FloatRect(200, 200, 300, 200));    
+    //sf::View view1(sf::FloatRect(200, 200, 300, 200));
     //Cria a janela
     sf::RenderWindow janela;
     janela.create(sf::VideoMode(800, 600), "Janela", sf::Style::Titlebar | sf::Style::Close);
@@ -34,9 +34,10 @@ int main()
 
     //Inicializa os objetos
     Jogador jogador(100.0f, 0.1f);
-    LifeMushroom monster({100.0,100.0});
+    LifeMushroom monster({100.0, 100.0});
     Flower flor({190.0, 100.0});
     Background backg;
+    backg.loadTileset();
     //executa uma sequencia de eventos enquanto a janela est� aberta
     while (janela.isOpen())
     {
@@ -49,23 +50,26 @@ int main()
             //fecha a janela
             case sf::Event::Closed:
                 janela.close();
+                break;
+
+            case sf::Event::KeyReleased:
+                jogador.setPulo(false);
+                break;
             }
         }
         //Colisao Cogumelo
-        if(jogador.getGlobalBounds().intersects(monster.getGlobalBounds()))
+        if (jogador.getGlobalBounds().intersects(monster.getGlobalBounds()))
             jogador.setBigMario(true);
-            if(jogador.getGlobalBounds().intersects(flor.getGlobalBounds()))
+        if (jogador.getGlobalBounds().intersects(flor.getGlobalBounds()))
             jogador.setFireMario(true);
-        jogador.atualiza(deltaTime, janela);        
+        jogador.atualiza(deltaTime, janela);
         monster.atualiza(deltaTime);
         janela.clear();
-        backg.desenha(janela);
-        monster.desenha(janela);        
+        // backg.desenha(janela);
+        monster.desenha(janela);
         jogador.desenha(janela);
         flor.desenha(janela);
         janela.display();
     }
     return 0;
 }
-
-

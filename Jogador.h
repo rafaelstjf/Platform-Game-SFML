@@ -4,13 +4,13 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <string>
-#include "Animation.h"
+#include "PlayerAnimation.h"
 using namespace std;
 class Jogador{
 private:
    sf::RectangleShape corpo;
-   Animation anBigMario;
-   Animation anSmallMario;
+   PlayerAnimation anBigMario;
+   PlayerAnimation anSmallMario;
    float velocidade;
    int linha;
    bool direita;
@@ -30,6 +30,7 @@ public:
     sf::Rect<float> getGlobalBounds();
     void setBigMario(bool marioBig);
     void setFireMario(bool flower);        
+    void setPulo(bool noChao);
     void atualiza(float deltaTime, sf::RenderWindow &window);
 
     ~Jogador();

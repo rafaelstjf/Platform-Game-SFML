@@ -1,6 +1,6 @@
 # depslib dependency file v1.0
 1506994150 source:c:\users\rafae\documents\github\trabalho_des_jogos\animation.cpp
-	"Animation.h"
+	"PlayerAnimation.h"
 
 1506994150 c:\users\rafae\documents\github\trabalho_des_jogos\animation.h
 	<SFML/Graphics.hpp>
@@ -414,7 +414,7 @@
 	<iostream>
 	<SFML/Graphics.hpp>
 	<string>
-	"Animation.h"
+	"PlayerAnimation.h"
 
 1506994150 source:c:\users\rafae\documents\github\trabalho_des_jogos\lifemushroom.cpp
 	"LifeMushroom.h"

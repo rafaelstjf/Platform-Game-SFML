@@ -7,7 +7,7 @@ Jogador::Jogador(float velocidade, float tempoTroca)
     direita = true;
     sMario.loadFromFile("Texturas/Player/sMario.png");
     bMario.loadFromFile("Texturas/Player/bMario.png");
-    const sf::Texture *pTexture = &sMario;  
+    const sf::Texture *pTexture = &sMario;
     corpo.setSize(sf::Vector2f(32.0, 32.0));
     //corpo.setScale(2, 2);
     corpo.setPosition(50.0, 150.0);
@@ -16,8 +16,8 @@ Jogador::Jogador(float velocidade, float tempoTroca)
     marioBig = false;
     noChao = true;
     linha = 0;
-    anBigMario = Animation(bMario, bMarioCount, tempoTroca);
-    anSmallMario = Animation(sMario, sMarioCount, tempoTroca);
+    anBigMario = PlayerAnimation(bMario, bMarioCount, tempoTroca);
+    anSmallMario = PlayerAnimation(sMario, sMarioCount, tempoTroca);
 }
 Jogador::~Jogador()
 {
@@ -66,11 +66,9 @@ void Jogador::atualiza(float deltaTime, sf::RenderWindow &window)
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
-         if(noChao)
-         {
-            movimento.y =- 1000*velocidade*deltaTime;
-            noChao = false;
-        }
+         movimento.y -= velocidade * deltaTime;
+         noChao = false;
+
         if (marioBig)
         {
             if (flower)
@@ -81,9 +79,9 @@ void Jogador::atualiza(float deltaTime, sf::RenderWindow &window)
         else
             linha = 1;
     }
-    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
         flower = !flower;
-        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::B))
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::B))
         marioBig = !marioBig;
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
@@ -95,9 +93,10 @@ void Jogador::atualiza(float deltaTime, sf::RenderWindow &window)
         direita = true;
         idle = true;
     }
-    if(!noChao){
+    if (!noChao && corpo.getPosition().y < 400)
+    {
 
-        movimento.y+=gravidade.y*deltaTime;
+        movimento.y += gravidade.y * deltaTime;
     }
     if (marioBig)
     {
@@ -111,12 +110,19 @@ void Jogador::atualiza(float deltaTime, sf::RenderWindow &window)
     }
     corpo.move(movimento);
 }
-sf::Rect<float> Jogador::getGlobalBounds(){
+sf::Rect<float> Jogador::getGlobalBounds()
+{
     return corpo.getGlobalBounds();
 }
-void Jogador::setBigMario(bool marioBig){
+void Jogador::setBigMario(bool marioBig)
+{
     this->marioBig = marioBig;
 }
-void Jogador::setFireMario(bool flower){
+void Jogador::setFireMario(bool flower)
+{
     this->flower = flower;
+}
+void Jogador::setPulo(bool noChao)
+{
+    this->noChao = noChao;
 }
