@@ -12,14 +12,14 @@ class Background
 private:
   sf::RectangleShape sky;
   sf::Texture texSky;
-  const sf::Vector2u tileSize{32, 32};
+  const sf::Vector2u tileSize{12, 12};
   sf::VertexArray m_vertices;
   sf::Texture m_tileset;
   int tiles[25*19];
 public:
   Background();
-  void loadTileset();  
-  void desenha(sf::RenderWindow &janela);
+  void loadTileset();
+  void draw(sf::RenderWindow &window);
   ~Background();
 };
 #endif

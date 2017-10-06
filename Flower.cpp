@@ -1,26 +1,19 @@
 #include "Flower.h"
 
-Flower::Flower(sf::Vector2f posicaoInicial){
-    direita = false;
-    textura.loadFromFile("Texturas/General/Flower.png");
+Flower::Flower(sf::Vector2f initPosition){
+    texture.loadFromFile("Texturas/General/Flower.png");
     imageCount = {1,1};
-    tempoTroca = 0.3f;
-    velocidade = 100;
-    const sf::Texture *pTexture = &textura;   
-    corpo.setTexture(pTexture);    
-    corpo.setSize(sf::Vector2f(32.0f,32.0f));
-    corpo.setPosition(posicaoInicial);
-    noChao = false;
+    const sf::Texture *pTexture = &texture;   
+    body.setTexture(pTexture);    
+    body.setSize(sf::Vector2f(32.0f,32.0f));
+    body.setPosition(initPosition);
 }
 Flower::~Flower(){
 
 }
-void Flower::desenha(sf::RenderWindow &window){
-    window.draw(corpo);
-}
-void Flower::atualiza(float deltaTime){
-  
+void Flower::draw(sf::RenderWindow &window){
+    window.draw(body);
 }
 sf::Rect<float> Flower::getGlobalBounds(){
-    return corpo.getGlobalBounds();
+    return body.getGlobalBounds();
 }

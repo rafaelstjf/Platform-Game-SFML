@@ -3,21 +3,17 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+
 using namespace std;
 
 class Flower{
 private:
-sf::RectangleShape corpo;
-sf::Texture textura;
-float velocidade;
+sf::RectangleShape body;
+sf::Texture texture;
 sf::Vector2f imageCount;
-float tempoTroca;
-bool direita;
-bool noChao;
 public:
-    Flower(sf::Vector2f posicaoInicial);
-    void desenha(sf::RenderWindow &window);
-    void atualiza(float deltaTime);
+    Flower(sf::Vector2f initPosition);
+    void draw(sf::RenderWindow &window);
     sf::Rect<float> getGlobalBounds();        
     ~Flower();
 
