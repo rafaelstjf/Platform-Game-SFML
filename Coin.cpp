@@ -1,11 +1,11 @@
 #include "Coin.h"
 
-Coin::Coin(sf::Vector2f initPosition, float switchTime){
+Coin::Coin(sf::Vector2f initPosition, float switchTime, sf::Texture& texture){
     imageCount = {3,1};
     this->switchTime = switchTime;
     totalTime = 0;
     currentImage.x = 0;
-    texture.loadFromFile("Textures/General/Coin.png");
+    this->texture = texture;
     uvRect.width = texture.getSize().x / float(imageCount.x);
     uvRect.height = texture.getSize().y / float(imageCount.y);
     const sf::Texture *pTexture = &texture;
@@ -51,24 +51,5 @@ sf::Vector2f Coin::getPosition()
 }
 void Coin::onCollision(sf::Vector2f direction)
 {
-    if (direction.x < 0.0f)
-    {
-        //Left
-        velocity.x = -1*velocity.x;
-    }
-    else if (direction.x > 0.0f)
-    {
-        //Right
-        velocity.x = -1*velocity.x;
-    }
-    if (direction.y < 0.0f)
-    {
-        //Bottom
-        velocity.y = 0.0f;
-    }
-    else if (direction.y > 0.0f)
-    {
-        //Above
-        velocity.y = 0.0f;
-    }
+
 }

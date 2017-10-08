@@ -15,7 +15,7 @@ float speed;
 sf::Vector2f imageCount;
 sf::Vector2f velocity;
 public:
-    SuperMushroom(sf::Vector2f initPosition, float speed);
+    SuperMushroom(sf::Vector2f initPosition, float speed, sf::Texture& texture);
     void draw(sf::RenderWindow &window);
     void update(float deltaTime);
     void onCollision(sf::Vector2f direction);

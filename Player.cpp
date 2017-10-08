@@ -65,7 +65,12 @@ void Player::update(float deltaTime, sf::RenderWindow &window)
         velocity.x -= 2 * speed;
         faceRight = false;
     }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && canJump)
+    else  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+    {
+        velocity.x += 2 * speed;
+        faceRight = true;
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && canJump)
     {
         canJump = false;
         velocity.y = -sqrt(2.0f * 981.0 * jumpHeight);
@@ -79,11 +84,6 @@ void Player::update(float deltaTime, sf::RenderWindow &window)
         }
         else
             row = 1;
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-    {
-        velocity.x += 2 * speed;
-        faceRight = true;
     }
     //velocity.y += 981.0f * deltaTime;
     if (velocity.x == 0)

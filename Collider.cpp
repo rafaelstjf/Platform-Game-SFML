@@ -10,7 +10,7 @@ Collider::~Collider()
 
 }
 
-bool Collider::checkCollision(Collider& other,sf::Vector2f& direction, float push)
+bool Collider::checkCollision(Collider other,sf::Vector2f& direction, float push)
 {
     sf::Vector2f otherPosition = other.getPosition();
     sf::Vector2f otherHalfSize = other.getHalfSize();
@@ -18,8 +18,8 @@ bool Collider::checkCollision(Collider& other,sf::Vector2f& direction, float pus
     sf::Vector2f thisHalfSize = getHalfSize();
     float deltaX = otherPosition.x = thisPosition.x;
     float deltaY = otherPosition.y = thisPosition.y;
-    float intersectX = abs(deltaX) - (otherHalfSize.x - thisHalfSize.x);
-    float intersectY = abs(deltaY) - (otherHalfSize.y - thisHalfSize.y);
+    float intersectX = abs(deltaX) - (otherHalfSize.x + thisHalfSize.x);
+    float intersectY = abs(deltaY) - (otherHalfSize.y + thisHalfSize.y);
     if(intersectX < 0.0f && intersectY < 0.0f)
     {
         push = min(max(push, 0.0f), 1.0f);
@@ -36,7 +36,7 @@ bool Collider::checkCollision(Collider& other,sf::Vector2f& direction, float pus
             {
                 move(-intersectX*(1.0f-push), 0.0f);
                 other.move(intersectX*push, 0.0f);
-                 direction.x = -1.0f;
+                direction.x = -1.0f;
                 direction.y = 0.0f;
             }
         }
@@ -46,14 +46,14 @@ bool Collider::checkCollision(Collider& other,sf::Vector2f& direction, float pus
             {
                 move(0.0f, intersectY*(1.0f-push) );
                 other.move(0.0f, -intersectY*push);
-                 direction.y = 1.0f;
+                direction.y = 1.0f;
                 direction.x = 0.0f;
             }
             else
             {
                 move(0.0f, -intersectY*(1.0f-push) );
                 other.move(0.0f, intersectY*push );
-                 direction.y = 01.0f;
+                direction.y = -1.0f;
                 direction.x = 0.0f;
             }
         }

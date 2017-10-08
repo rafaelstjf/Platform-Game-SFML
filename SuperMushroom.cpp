@@ -1,11 +1,11 @@
 #include "SuperMushroom.h"
 
-SuperMushroom::SuperMushroom(sf::Vector2f initPosition, float speed){
+SuperMushroom::SuperMushroom(sf::Vector2f initPosition, float speed, sf::Texture& texture){
     imageCount = {1,1};
     this->speed = speed;
-    texture.loadFromFile("Textures/General/SuperMushroom.png");
-    const sf::Texture *pTexture = &texture;   
-    body.setTexture(pTexture);    
+    this->texture = texture;
+    const sf::Texture *pTexture = &texture;
+    body.setTexture(pTexture);
     body.setSize(sf::Vector2f(32.0f,32.0f));
     body.setOrigin(body.getSize()/2.0f);
     body.setPosition(initPosition);
@@ -22,8 +22,8 @@ void SuperMushroom::update(float deltaTime){
         velocity.x += speed;
     else
         velocity.x -=speed;
-    velocity.y += 981.0f * deltaTime;        
-    body.move(velocity*deltaTime);    
+   // velocity.y += 981.0f * deltaTime;
+    body.move(velocity*deltaTime);
 }
 sf::Rect<float> SuperMushroom::getGlobalBounds(){
     return body.getGlobalBounds();
