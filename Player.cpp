@@ -85,7 +85,7 @@ void Player::update(float deltaTime, sf::RenderWindow &window)
         else
             row = 1;
     }
-    //velocity.y += 981.0f * deltaTime;
+    velocity.y += 981.0f * deltaTime;
     if (velocity.x == 0)
     {
         faceRight = true;

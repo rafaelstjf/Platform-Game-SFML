@@ -17,12 +17,12 @@ void SuperMushroom::draw(sf::RenderWindow &window){
     window.draw(body);
 }
 void SuperMushroom::update(float deltaTime){
-    velocity.x = 0.0f;
+    //velocity.x = 0.5f;
     if(velocity.x>0.0f)
         velocity.x += speed;
     else
         velocity.x -=speed;
-   // velocity.y += 981.0f * deltaTime;
+    velocity.y += 981.0f * deltaTime;
     body.move(velocity*deltaTime);
 }
 sf::Rect<float> SuperMushroom::getGlobalBounds(){
