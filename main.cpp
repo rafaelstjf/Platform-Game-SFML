@@ -1,6 +1,10 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <sstream>
+#ifdef __linux__
+#include <cstring>
+#endif
 //SFML Libraries
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
@@ -12,7 +16,18 @@
 #include "Flower.h"
 #include "Platform.h"
 #include "Coin.h"
-
+#include "HUD.h"
+#include "SoundManager.h"
+namespace patch //Correcao da funcao to_string
+{
+template <typename T>
+std::string to_string(const T &n)
+{
+    std::ostringstream stm;
+    stm << n;
+    return stm.str();
+}
+}
 using namespace std;
 
 static const string coinTPath = "Textures/General/Coin.png";
@@ -31,8 +46,6 @@ int main()
 {
     //Inicializa as variaveis
     float deltaTime = 0.0f;
-    sf::Music menuMusic;
-    menuMusic.openFromFile("Audio/menu.ogg");
     bool gameOpen = true;
     bool inMenu = true;
     sf::Clock clock;
@@ -42,6 +55,7 @@ int main()
     //Cria a window e a view
     sf::RenderWindow game;
     sf::RenderWindow menu;
+    //Carrega a fonte
     sf::Font font;
     font.loadFromFile("Extra/font.ttf");
     //Carrega a textura de alguns objetos
@@ -52,15 +66,13 @@ int main()
 
 
     //Inicializa os objetos
-    Player mario(100.0f, switchTime, 100, sf::Vector2f(50.0f,50.0f));
-    SuperMushroom m(sf::Vector2f(28.0f, 50.0f), 1, sMushroomTexture);
-    Coin c(sf::Vector2f(10.0f, 50.0f), switchTime, coinTexture);
+    SoundManager sound;
+    Player mario(100.0f, switchTime, 100, sf::Vector2f(5.0f,300.0f));
     vector <Coin> coins;
-    for( int i =0; i<10; i++)
-    {
-        coins.push_back(Coin(sf::Vector2f(float(82.0 + 33.0*i), 50.0f), switchTime, coinTexture));
-    }
+
+    vector <SuperMushroom> smushrooms;
     Platform p1(sf::Vector2f(1600.0f,32.0f), sf::Vector2f(0,600-16));
+    HUD hud;
 
 
     //executa uma sequencia de eventos enquanto a janela esta aberta
@@ -91,12 +103,11 @@ int main()
             textOp2.setCharacterSize(100);
             while (menu.isOpen())
             {
-                if(menuMusic.getStatus()==sf::Music::Stopped)
-                    menuMusic.play();
+                sound.playMusic("menu");
                 sf::Event evento;
                 deltaTime = clock.restart().asSeconds();
-                if (deltaTime > 1.0f / 20.f)
-                    deltaTime = 1.0f / 20.0f;
+                if (deltaTime > 1.0f / 60.f)
+                    deltaTime = 1.0f / 60.0f;
                 while (menu.pollEvent(evento))
                 {
                     //fecha a janela
@@ -126,9 +137,10 @@ int main()
                         }
                         if(op1)
                         {
-                            menuMusic.stop();
+                            sound.stopMusic("menu");
                             menu.close();
                             inMenu = false;
+
                         }
                     }
 
@@ -154,9 +166,25 @@ int main()
         }
         else
         {
-            //Controle do jogo
+            //Limpa os vetores e coloca o mario na posicao inicial
+            coins.clear();
+            smushrooms.clear();
+            mario.setPosition( sf::Vector2f(5.0f,300.0f));
+            mario.setBigMario(false);
+
+            //Instancia os objetos no inicio do jogo
+            vidas = 3;
+            pontuacao = 0;
+            for( int i = 0; i<10; i++)
+                coins.push_back(Coin(sf::Vector2f(float(82.0 + 33.0*i), 450.0f), switchTime, coinTexture));
+            for(int i =0; i <1; i++)
+                smushrooms.push_back(SuperMushroom(sf::Vector2f(128.0f, 450.0f), 50, sMushroomTexture));
+
+            //Cria a tela do jogo
             game.create(sf::VideoMode(800, 600), "Janela", sf::Style::Titlebar | sf::Style::Close);
             sf::View view(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 600.0f));
+            sound.playMusic("game");
+
             while (game.isOpen())
             {
                 sf::Event evento;
@@ -179,30 +207,80 @@ int main()
                         break;
                     }
                 }
-                //update
+                //updates
                 mario.update(deltaTime, game);
-                m.update(deltaTime);
-                for( int i =0; i<10; i++)
+                hud.update(patch::to_string(pontuacao), patch::to_string(vidas), mario.getPosition());
+                for( int i =0; i<smushrooms.size(); i++)
+                    smushrooms[i].update(deltaTime);
+                for( int i =0; i<coins.size(); i++)
                     coins[i].update(deltaTime);
-
-                //Colisao
+                //Colisoes
                 if(p1.getCollider().checkCollision(mario.getCollider(), direction, 1.0f))
-                {
                     mario.onCollision(direction);
-                    cout << direction.x << " " << direction.y << endl;
+
+                for( int i =0; i<coins.size(); i++)
+                {
+                    if(coins[i].getCollider().checkCollision(mario.getCollider(), direction, 1.0f))
+                    {
+                        coins.erase(coins.begin()+i);
+                        sound.playSound("coin");
+                        pontuacao++;
+                    }
                 }
-                if(m.getCollider().checkCollision(p1.getCollider(), direction, 1.0f))
-                    m.onCollision(direction);
+                for(int i = 0; i<smushrooms.size(); i++)
+                {
+                    if(smushrooms[i].getCollider().checkCollision(mario.getCollider(), direction, 1.0f))
+                    {
+                        if(!mario.getBigMario())
+                        {
+                            mario.setBigMario(true);
+                            mario.setScale(1.2, 1.2);
+                        }
+                        smushrooms.erase(smushrooms.begin()+i);
+                    }
+                    if(smushrooms[i].getCollider().checkCollision(p1.getCollider(), direction, 0.0f))
+                        smushrooms[i].onCollision(direction);
+                }
+
+                //Controle de queda do cenario
+                if(mario.getPosition().y > 600)
+                {
+                    sound.playSound("death");
+                    vidas--;
+                    if(vidas>0)
+                    {
+                        mario.setPosition(sf::Vector2f(5.0f, 300.0f));
+                        if(mario.getBigMario())
+                        {
+                            mario.setBigMario(false);
+                            mario.setScale(0.83,0.83);
+                        }
+
+                    }
+                }
+                //Verifica se as vidas acabaram
+                if(vidas<=0)
+                {
+                    inMenu = true;
+                    game.close();
+                    break;
+                }
+                //controle de movimento
+                /*if(mario.getPosition().x <=0.0)
+                    mario.move(sf::Vector2f(1.0f,0.0f));
+                */
                 //controle da view
                 view.setCenter((int)mario.getPosition().x, 300);
                 game.setView(view);
                 //draw
                 game.clear(sf::Color::Blue);
                 p1.draw(game);
-                for( int i =0; i<10; i++)
+                for( int i =0; i<coins.size(); i++)
                     coins[i].draw(game);
                 mario.draw(game);
-                m.draw(game);
+                for( int i =0; i<smushrooms.size(); i++)
+                    smushrooms[i].draw(game);
+                hud.draw(game);
                 game.display();
             }
         }

@@ -147,3 +147,16 @@ sf::Vector2f Player::getPosition()
 {
     return body.getPosition();
 }
+void Player::setPosition(sf::Vector2f pos){
+
+body.setPosition(pos);
+}
+void Player::move(sf::Vector2f dir){
+body.move(dir);
+}
+void Player::setScale(float x, float y){
+body.scale(x, y);
+}
+bool Player::getBigMario(){
+return isBig;
+}

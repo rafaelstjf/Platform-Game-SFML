@@ -8,6 +8,7 @@ using namespace std;
 class Platform
 {
 private:
+    sf::Texture texture;
   sf::RectangleShape body;
 public:
   Platform(sf::Vector2f size, sf::Vector2f initPosition);

@@ -427,10 +427,12 @@
 	<SFML/Graphics.hpp>
 	<iostream>
 
-1507499467 source:c:\users\rafae\documents\github\trabalho_des_jogos\main.cpp
+1507644158 source:c:\users\rafae\documents\github\trabalho_des_jogos\main.cpp
 	<string>
 	<iostream>
 	<vector>
+	<sstream>
+	<cstring>
 	<SFML/Window.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Audio.hpp>
@@ -439,6 +441,8 @@
 	"Flower.h"
 	"Platform.h"
 	"Coin.h"
+	"HUD.h"
+	"SoundManager.h"
 
 1486736397 c:\users\rafae\documents\github\trabalho_des_jogos\sfml-2.4.2\include\sfml\audio.hpp
 	<SFML/System.hpp>
@@ -564,10 +568,11 @@
 	<iostream>
 	"Collider.h"
 
-1507319319 c:\users\rafae\documents\github\trabalho_des_jogos\player.h
+1507597426 c:\users\rafae\documents\github\trabalho_des_jogos\player.h
 	<iostream>
 	<SFML/Graphics.hpp>
 	<string>
+	<SFML/Audio.hpp>
 	"PlayerAnimation.h"
 	"Collider.h"
 
@@ -576,17 +581,29 @@
 	<iostream>
 	"Collider.h"
 
-1507495663 source:c:\users\rafae\documents\github\trabalho_des_jogos\player.cpp
+1507597434 source:c:\users\rafae\documents\github\trabalho_des_jogos\player.cpp
 	"Player.h"
 
-1507495884 source:c:\users\rafae\documents\github\trabalho_des_jogos\supermushroom.cpp
+1507598537 source:c:\users\rafae\documents\github\trabalho_des_jogos\supermushroom.cpp
 	"SuperMushroom.h"
 
-1507490754 c:\users\rafae\documents\github\trabalho_des_jogos\platform.h
+1507594622 c:\users\rafae\documents\github\trabalho_des_jogos\platform.h
 	<SFML/Graphics.hpp>
 	<iostream>
 	"Collider.h"
 
-1507492825 source:c:\users\rafae\documents\github\trabalho_des_jogos\platform.cpp
+1507595060 source:c:\users\rafae\documents\github\trabalho_des_jogos\platform.cpp
 	"Platform.h"
+
+1507559924 source:c:\users\rafae\documents\github\trabalho_des_jogos\hud.cpp
+	"HUD.h"
+
+1507559077 c:\users\rafae\documents\github\trabalho_des_jogos\hud.h
+	<SFML/Graphics.hpp>
+	<iostream>
+
+1507644073 c:\users\rafae\documents\github\trabalho_des_jogos\soundmanager.h
+	<SFML/Audio.hpp>
+	<iostream>
+	<string>
 

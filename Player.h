@@ -4,6 +4,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <SFML/Audio.hpp>
 #include "PlayerAnimation.h"
 #include "Collider.h"
 using namespace std;
@@ -13,6 +14,7 @@ class Player
     sf::RectangleShape body;
     PlayerAnimation anBigMario;
     PlayerAnimation anSmallMario;
+    sf::Sound jumpSound;
     float speed;
     int row;
     bool faceRight;
@@ -36,6 +38,10 @@ class Player
     void setFireMario(bool flower);
     void update(float deltaTime, sf::RenderWindow &window);
     void onCollision(sf::Vector2f direction);
+    void setPosition(sf::Vector2f pos);
+    void move(sf::Vector2f dir);
+    void setScale(float x, float y);
+    bool getBigMario();
     Collider getCollider();
     sf::Vector2f getPosition();
 

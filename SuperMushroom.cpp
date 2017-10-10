@@ -17,7 +17,7 @@ void SuperMushroom::draw(sf::RenderWindow &window){
     window.draw(body);
 }
 void SuperMushroom::update(float deltaTime){
-    //velocity.x = 0.5f;
+    velocity.x*=0.8;
     if(velocity.x>0.0f)
         velocity.x += speed;
     else
