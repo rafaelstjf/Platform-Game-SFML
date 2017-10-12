@@ -427,7 +427,7 @@
 	<SFML/Graphics.hpp>
 	<iostream>
 
-1507644158 source:c:\users\rafae\documents\github\trabalho_des_jogos\main.cpp
+1507741371 source:c:\users\rafae\documents\github\trabalho_des_jogos\main.cpp
 	<string>
 	<iostream>
 	<vector>
@@ -443,6 +443,7 @@
 	"Coin.h"
 	"HUD.h"
 	"SoundManager.h"
+	"QuestionBlock.h"
 
 1486736397 c:\users\rafae\documents\github\trabalho_des_jogos\sfml-2.4.2\include\sfml\audio.hpp
 	<SFML/System.hpp>
@@ -606,4 +607,15 @@
 	<SFML/Audio.hpp>
 	<iostream>
 	<string>
+
+1507644344 source:c:\users\rafae\documents\github\trabalho_des_jogos\soundmanager.cpp
+	"SoundManager.h"
+
+1507741116 c:\users\rafae\documents\github\trabalho_des_jogos\questionblock.h
+	<SFML/Graphics.hpp>
+	<iostream>
+	"Collider.h"
+
+1507741531 source:c:\users\rafae\documents\github\trabalho_des_jogos\questionblock.cpp
+	"QuestionBlock.h"
 

@@ -18,6 +18,7 @@
 #include "Coin.h"
 #include "HUD.h"
 #include "SoundManager.h"
+#include "QuestionBlock.h"
 namespace patch //Correcao da funcao to_string
 {
 template <typename T>
@@ -179,6 +180,7 @@ int main()
                 coins.push_back(Coin(sf::Vector2f(float(82.0 + 33.0*i), 450.0f), switchTime, coinTexture));
             for(int i =0; i <1; i++)
                 smushrooms.push_back(SuperMushroom(sf::Vector2f(128.0f, 450.0f), 50, sMushroomTexture));
+                QuestionBlock quest(sf::Vector2f(100.0,450.0f));
 
             //Cria a tela do jogo
             game.create(sf::VideoMode(800, 600), "Janela", sf::Style::Titlebar | sf::Style::Close);
@@ -215,12 +217,12 @@ int main()
                 for( int i =0; i<coins.size(); i++)
                     coins[i].update(deltaTime);
                 //Colisoes
-                if(p1.getCollider().checkCollision(mario.getCollider(), direction, 1.0f))
+                if(p1.getCollider().checkCollision(mario.getCollider(), direction, 0.0f))
                     mario.onCollision(direction);
 
                 for( int i =0; i<coins.size(); i++)
                 {
-                    if(coins[i].getCollider().checkCollision(mario.getCollider(), direction, 1.0f))
+                    if(coins[i].getCollider().checkCollision(mario.getCollider(), direction, 0.0f))
                     {
                         coins.erase(coins.begin()+i);
                         sound.playSound("coin");
@@ -229,7 +231,7 @@ int main()
                 }
                 for(int i = 0; i<smushrooms.size(); i++)
                 {
-                    if(smushrooms[i].getCollider().checkCollision(mario.getCollider(), direction, 1.0f))
+                    if(smushrooms[i].getCollider().checkCollision(mario.getCollider(), direction, 0.0f))
                     {
                         if(!mario.getBigMario())
                         {
@@ -241,7 +243,12 @@ int main()
                     if(smushrooms[i].getCollider().checkCollision(p1.getCollider(), direction, 0.0f))
                         smushrooms[i].onCollision(direction);
                 }
-
+                if(mario.getCollider().checkCollision(quest.getCollider(), direction, 0.0f)){
+                 mario.onCollision(direction);
+                 quest.onCollision(sf::Vector2f(-1*direction.x, -1*direction.y));
+                 if(!quest.getActivate())
+                    smushrooms.push_back(SuperMushroom(sf::Vector2f(quest.getPosition().x, quest.getPosition().y+32), 50, sMushroomTexture));
+                }
                 //Controle de queda do cenario
                 if(mario.getPosition().y > 600)
                 {
@@ -277,6 +284,7 @@ int main()
                 p1.draw(game);
                 for( int i =0; i<coins.size(); i++)
                     coins[i].draw(game);
+                quest.draw(game);
                 mario.draw(game);
                 for( int i =0; i<smushrooms.size(); i++)
                     smushrooms[i].draw(game);
