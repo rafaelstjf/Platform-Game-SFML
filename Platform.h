@@ -8,10 +8,9 @@ using namespace std;
 class Platform
 {
 private:
-    sf::Texture texture;
   sf::RectangleShape body;
 public:
-  Platform(sf::Vector2f size, sf::Vector2f initPosition);
+  Platform(sf::Texture& texture, sf::Vector2f size, sf::Vector2f initPosition);
   Collider getCollider();
   sf::Vector2f getPosition();
   void draw(sf::RenderWindow &window);

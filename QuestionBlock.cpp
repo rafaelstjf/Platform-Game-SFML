@@ -6,7 +6,7 @@ QuestionBlock::QuestionBlock(sf::Vector2f initPosition)
     const sf::Texture *pTexture = &texture;
     body.setTexture(pTexture);
     body.setSize(sf::Vector2f(32.0f,32.0f));
-    activate = false;
+    activate = true;
     body.setOrigin(body.getSize()/2.0f);
     body.setPosition(initPosition);
 
@@ -27,15 +27,17 @@ QuestionBlock::~QuestionBlock()
 void QuestionBlock::draw(sf::RenderWindow &window){
 window.draw(body);
 }
-void QuestionBlock::onCollision(sf::Vector2f direction)
+bool QuestionBlock::onCollision(sf::Vector2f direction)
 {
-    if(activate)
+    if(activate && direction.y>0&& direction.x==0)
         {
             activate = false;
             texture.loadFromFile("Textures/General/QBlock1.png");
             const sf::Texture *pTexture = &texture;
             body.setTexture(pTexture);
+            return true;
         }
+    return false;
 }
 sf::Vector2f QuestionBlock::getPosition(){
 return body.getPosition();

@@ -427,7 +427,7 @@
 	<SFML/Graphics.hpp>
 	<iostream>
 
-1507741371 source:c:\users\rafae\documents\github\trabalho_des_jogos\main.cpp
+1507831586 source:c:\users\rafae\documents\github\trabalho_des_jogos\main.cpp
 	<string>
 	<iostream>
 	<vector>
@@ -561,10 +561,10 @@
 1507495625 source:c:\users\rafae\documents\github\trabalho_des_jogos\collider.cpp
 	"Collider.h"
 
-1507475241 source:c:\users\rafae\documents\github\trabalho_des_jogos\coin.cpp
+1507831600 source:c:\users\rafae\documents\github\trabalho_des_jogos\coin.cpp
 	"Coin.h"
 
-1507473168 c:\users\rafae\documents\github\trabalho_des_jogos\coin.h
+1507831611 c:\users\rafae\documents\github\trabalho_des_jogos\coin.h
 	<SFML/Graphics.hpp>
 	<iostream>
 	"Collider.h"
@@ -577,23 +577,24 @@
 	"PlayerAnimation.h"
 	"Collider.h"
 
-1507473168 c:\users\rafae\documents\github\trabalho_des_jogos\supermushroom.h
+1507831586 c:\users\rafae\documents\github\trabalho_des_jogos\supermushroom.h
 	<SFML/Graphics.hpp>
 	<iostream>
 	"Collider.h"
-
-1507597434 source:c:\users\rafae\documents\github\trabalho_des_jogos\player.cpp
 	"Player.h"
 
-1507598537 source:c:\users\rafae\documents\github\trabalho_des_jogos\supermushroom.cpp
+1507827314 source:c:\users\rafae\documents\github\trabalho_des_jogos\player.cpp
+	"Player.h"
+
+1507831465 source:c:\users\rafae\documents\github\trabalho_des_jogos\supermushroom.cpp
 	"SuperMushroom.h"
 
-1507594622 c:\users\rafae\documents\github\trabalho_des_jogos\platform.h
+1507831586 c:\users\rafae\documents\github\trabalho_des_jogos\platform.h
 	<SFML/Graphics.hpp>
 	<iostream>
 	"Collider.h"
 
-1507595060 source:c:\users\rafae\documents\github\trabalho_des_jogos\platform.cpp
+1507831623 source:c:\users\rafae\documents\github\trabalho_des_jogos\platform.cpp
 	"Platform.h"
 
 1507559924 source:c:\users\rafae\documents\github\trabalho_des_jogos\hud.cpp
@@ -611,11 +612,12 @@
 1507644344 source:c:\users\rafae\documents\github\trabalho_des_jogos\soundmanager.cpp
 	"SoundManager.h"
 
-1507741116 c:\users\rafae\documents\github\trabalho_des_jogos\questionblock.h
+1507828811 c:\users\rafae\documents\github\trabalho_des_jogos\questionblock.h
 	<SFML/Graphics.hpp>
 	<iostream>
 	"Collider.h"
+	"SuperMushroom.h"
 
-1507741531 source:c:\users\rafae\documents\github\trabalho_des_jogos\questionblock.cpp
+1507828811 source:c:\users\rafae\documents\github\trabalho_des_jogos\questionblock.cpp
 	"QuestionBlock.h"
 

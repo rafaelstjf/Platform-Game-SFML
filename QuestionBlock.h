@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Collider.h"
-
+#include "SuperMushroom.h"
 using namespace std;
 
 class QuestionBlock
@@ -13,7 +13,7 @@ public:
     virtual ~QuestionBlock();
     bool getActivate();
     Collider getCollider();
-    void onCollision(sf::Vector2f direction);
+    bool onCollision(sf::Vector2f direction);
     void draw(sf::RenderWindow& window);
     sf::Vector2f getPosition();
 

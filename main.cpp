@@ -33,6 +33,12 @@ using namespace std;
 
 static const string coinTPath = "Textures/General/Coin.png";
 static const string sMushroomTPath = "Textures/General/SuperMushroom.png";
+static const string groundTPath = "Textures/Background/Ground.png";
+static const string logoTPath = "Textures/General/logo.png";
+static const string transparentTPath = "Textures/Background/Transparent.png";
+static const string tube2TPath = "Textures/Background/Tube2.png";
+static const string tube1TPath = "Textures/Background/Tube1.png";
+
 const float switchTime = 0.1f;
 static const float VIEW_HEIGHT = 600.0f;
 static const float VIEW_WIDTH = 800.0f;
@@ -61,20 +67,31 @@ int main()
     font.loadFromFile("Extra/font.ttf");
     //Carrega a textura de alguns objetos
     sf::Texture coinTexture;
+    sf::Texture transparentTexture;
+    transparentTexture.loadFromFile(transparentTPath);
     coinTexture.loadFromFile(coinTPath);
     sf::Texture sMushroomTexture;
+    sf::Texture groundTexture;
+    sf::Texture tube2Texture;
+    tube2Texture.loadFromFile(tube2TPath);
+    groundTexture.loadFromFile(groundTPath);
     sMushroomTexture.loadFromFile(sMushroomTPath);
+
 
 
     //Inicializa os objetos
     SoundManager sound;
-    Player mario(100.0f, switchTime, 100, sf::Vector2f(5.0f,300.0f));
+    Player mario(100.0f, switchTime, 100, sf::Vector2f(16.0f,300.0f));
     vector <Coin> coins;
+    vector<Platform> platforms;
 
     vector <SuperMushroom> smushrooms;
-    Platform p1(sf::Vector2f(1600.0f,32.0f), sf::Vector2f(0,600-16));
-    HUD hud;
+    platforms.push_back( Platform(groundTexture, sf::Vector2f(4800.0f,32.0f), sf::Vector2f(2400,600-16) ) );
+    platforms.push_back( Platform(transparentTexture, sf::Vector2f(32.0f, 600.0f), sf::Vector2f(-16.0f, 300.0f) ) );
+    platforms.push_back( Platform(tube2Texture, sf::Vector2f(64.0f, 96.0f), sf::Vector2f(300.0f, 600-79.0f) ) );
 
+    HUD hud;
+    //
 
     //executa uma sequencia de eventos enquanto a janela esta aberta
     while(gameOpen)
@@ -83,7 +100,7 @@ int main()
         {
             menu.create(sf::VideoMode(800,600), "Menu", sf::Style::Titlebar | sf::Style::Close);
             sf::Texture logoT;
-            logoT.loadFromFile("Textures/General/logo.png");
+            logoT.loadFromFile(logoTPath);
             sf::RectangleShape logo;
             const sf::Texture *plogoT = &logoT;
             logo.setSize(sf::Vector2f(logoT.getSize().x, logoT.getSize().y));
@@ -178,9 +195,7 @@ int main()
             pontuacao = 0;
             for( int i = 0; i<10; i++)
                 coins.push_back(Coin(sf::Vector2f(float(82.0 + 33.0*i), 450.0f), switchTime, coinTexture));
-            for(int i =0; i <1; i++)
-                smushrooms.push_back(SuperMushroom(sf::Vector2f(128.0f, 450.0f), 50, sMushroomTexture));
-                QuestionBlock quest(sf::Vector2f(100.0,450.0f));
+            QuestionBlock quest(sf::Vector2f(100.0,500.0f));
 
             //Cria a tela do jogo
             game.create(sf::VideoMode(800, 600), "Janela", sf::Style::Titlebar | sf::Style::Close);
@@ -217,9 +232,16 @@ int main()
                 for( int i =0; i<coins.size(); i++)
                     coins[i].update(deltaTime);
                 //Colisoes
-                if(p1.getCollider().checkCollision(mario.getCollider(), direction, 0.0f))
-                    mario.onCollision(direction);
 
+                //colisao objetos-plataformas
+                for(int i =0; i<platforms.size(); i++)
+                {
+                    if(mario.getCollider().checkCollision(platforms[i].getCollider(), direction, 0.0f))
+                        mario.onCollision(direction);
+                    for(int j = 0; j<smushrooms.size(); j++)
+                    if(smushrooms[j].getCollider().checkCollision(platforms[i].getCollider(), direction, 0.0f))
+                        smushrooms[j].onCollision(direction);
+                }
                 for( int i =0; i<coins.size(); i++)
                 {
                     if(coins[i].getCollider().checkCollision(mario.getCollider(), direction, 0.0f))
@@ -233,21 +255,18 @@ int main()
                 {
                     if(smushrooms[i].getCollider().checkCollision(mario.getCollider(), direction, 0.0f))
                     {
-                        if(!mario.getBigMario())
-                        {
-                            mario.setBigMario(true);
-                            mario.setScale(1.2, 1.2);
-                        }
+                        smushrooms[i].onCollisionPlayer(mario);
                         smushrooms.erase(smushrooms.begin()+i);
                     }
-                    if(smushrooms[i].getCollider().checkCollision(p1.getCollider(), direction, 0.0f))
-                        smushrooms[i].onCollision(direction);
+
                 }
-                if(mario.getCollider().checkCollision(quest.getCollider(), direction, 0.0f)){
-                 mario.onCollision(direction);
-                 quest.onCollision(sf::Vector2f(-1*direction.x, -1*direction.y));
-                 if(!quest.getActivate())
-                    smushrooms.push_back(SuperMushroom(sf::Vector2f(quest.getPosition().x, quest.getPosition().y+32), 50, sMushroomTexture));
+                if(mario.getCollider().checkCollision(quest.getCollider(), direction, 0.0f))
+                {
+                    mario.onCollision(direction);
+                    if(quest.getActivate() && quest.onCollision(sf::Vector2f(-1*direction.x, -1*direction.y)))
+                        smushrooms.push_back(SuperMushroom(sf::Vector2f(quest.getPosition().x, quest.getPosition().y-32), 50, sMushroomTexture));
+
+
                 }
                 //Controle de queda do cenario
                 if(mario.getPosition().y > 600)
@@ -281,7 +300,8 @@ int main()
                 game.setView(view);
                 //draw
                 game.clear(sf::Color::Blue);
-                p1.draw(game);
+                for( int i =0; i<platforms.size(); i++)
+                    platforms[i].draw(game);
                 for( int i =0; i<coins.size(); i++)
                     coins[i].draw(game);
                 quest.draw(game);

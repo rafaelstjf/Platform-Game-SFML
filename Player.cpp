@@ -115,13 +115,13 @@ void Player::onCollision(sf::Vector2f direction)
         //Right
         velocity.x = 0.0f;
     }
-    if (direction.y < 0.0f)
+    if (direction.y > 0.0f)
     {
         //Bottom
         velocity.y = 0.0f;
         canJump = true;
     }
-    else if (direction.y > 0.0f)
+    else if (direction.y < 0.0f)
     {
         //Above
         velocity.y = 0.0f;

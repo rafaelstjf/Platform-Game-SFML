@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Collider.h"
-
+#include "Player.h"
 using namespace std;
 
 class SuperMushroom{
@@ -19,6 +19,7 @@ public:
     void draw(sf::RenderWindow &window);
     void update(float deltaTime);
     void onCollision(sf::Vector2f direction);
+    void onCollisionPlayer(Player& mario);
     sf::Rect<float> getGlobalBounds();
     Collider getCollider();
     sf::Vector2f getPosition();

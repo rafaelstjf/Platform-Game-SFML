@@ -1,6 +1,7 @@
 #include "SuperMushroom.h"
 
-SuperMushroom::SuperMushroom(sf::Vector2f initPosition, float speed, sf::Texture& texture){
+SuperMushroom::SuperMushroom(sf::Vector2f initPosition, float speed, sf::Texture& texture)
+{
     imageCount = {1,1};
     this->speed = speed;
     this->texture = texture;
@@ -10,13 +11,16 @@ SuperMushroom::SuperMushroom(sf::Vector2f initPosition, float speed, sf::Texture
     body.setOrigin(body.getSize()/2.0f);
     body.setPosition(initPosition);
 }
-SuperMushroom::~SuperMushroom(){
+SuperMushroom::~SuperMushroom()
+{
 
 }
-void SuperMushroom::draw(sf::RenderWindow &window){
+void SuperMushroom::draw(sf::RenderWindow &window)
+{
     window.draw(body);
 }
-void SuperMushroom::update(float deltaTime){
+void SuperMushroom::update(float deltaTime)
+{
     velocity.x*=0.8;
     if(velocity.x>0.0f)
         velocity.x += speed;
@@ -25,7 +29,8 @@ void SuperMushroom::update(float deltaTime){
     velocity.y += 981.0f * deltaTime;
     body.move(velocity*deltaTime);
 }
-sf::Rect<float> SuperMushroom::getGlobalBounds(){
+sf::Rect<float> SuperMushroom::getGlobalBounds()
+{
     return body.getGlobalBounds();
 }
 Collider SuperMushroom::getCollider()
@@ -57,5 +62,13 @@ void SuperMushroom::onCollision(sf::Vector2f direction)
     {
         //Above
         velocity.y = 0.0f;
+    }
+}
+void SuperMushroom::onCollisionPlayer(Player& mario)
+{
+    if(!mario.getBigMario())
+    {
+        mario.setBigMario(true);
+        mario.setScale(1.2, 1.2);
     }
 }
