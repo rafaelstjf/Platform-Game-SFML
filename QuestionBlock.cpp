@@ -1,8 +1,9 @@
 #include "QuestionBlock.h"
 
-QuestionBlock::QuestionBlock(sf::Vector2f initPosition)
+QuestionBlock::QuestionBlock(sf::Texture& texture, sf::Vector2f initPosition)
 {
-    texture.loadFromFile("Textures/General/Qblock0.png");
+    this->texture = texture;
+    sound = new SoundManager();
     const sf::Texture *pTexture = &texture;
     body.setTexture(pTexture);
     body.setSize(sf::Vector2f(32.0f,32.0f));
@@ -35,6 +36,7 @@ bool QuestionBlock::onCollision(sf::Vector2f direction)
             texture.loadFromFile("Textures/General/QBlock1.png");
             const sf::Texture *pTexture = &texture;
             body.setTexture(pTexture);
+            sound->playSound("apPowerUp");
             return true;
         }
     return false;

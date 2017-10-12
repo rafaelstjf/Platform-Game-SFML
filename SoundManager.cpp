@@ -30,6 +30,27 @@ void SoundManager::playSound(string soundName)
         buffer.loadFromFile(deathPath);
         sound.play();
     }
+    else if(soundName== "powerUp")
+    {
+        buffer.loadFromFile(powerUpPath);
+        sound.play();
+    }
+    else if( soundName== "apPowerUp")
+    {
+        buffer.loadFromFile(apPowerUpPath);
+        sound.play();
+    }
+     else if( soundName== "breakBlock")
+    {
+        buffer.loadFromFile(breakBlockPath);
+        sound.play();
+    }
+     else if( soundName== "stomp")
+    {
+        buffer.loadFromFile(stompPath);
+        sound.play();
+    }
+
 
 }
 

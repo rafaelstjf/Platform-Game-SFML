@@ -2,6 +2,7 @@
 
 Player::Player(float speed, float switchTime, float jumpHeight, sf::Vector2f initPosition)
 {
+    sound = new SoundManager();
     this->speed = speed;
     this->switchTime = switchTime;
     this->jumpHeight = jumpHeight;
@@ -72,6 +73,7 @@ void Player::update(float deltaTime, sf::RenderWindow &window)
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && canJump)
     {
+        sound->playSound("jump");
         canJump = false;
         velocity.y = -sqrt(2.0f * 981.0 * jumpHeight);
 

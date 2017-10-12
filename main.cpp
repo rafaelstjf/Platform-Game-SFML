@@ -19,6 +19,8 @@
 #include "HUD.h"
 #include "SoundManager.h"
 #include "QuestionBlock.h"
+#include "NormalBlock.h"
+#include "Goomba.h"
 namespace patch //Correcao da funcao to_string
 {
 template <typename T>
@@ -35,9 +37,12 @@ static const string coinTPath = "Textures/General/Coin.png";
 static const string sMushroomTPath = "Textures/General/SuperMushroom.png";
 static const string groundTPath = "Textures/Background/Ground.png";
 static const string logoTPath = "Textures/General/logo.png";
-static const string transparentTPath = "Textures/Background/Transparent.png";
+static const string bigTubeTPath = "Textures/Background/Transparent.png";
 static const string tube2TPath = "Textures/Background/Tube2.png";
 static const string tube1TPath = "Textures/Background/Tube1.png";
+static const string normalBlockTPath = "Textures/General/NBlock.png";
+static const string goombaTPath = "Textures/General/Goomba.png";
+static const string questionBlockTPath = "Textures/General/Qblock0.png";
 
 const float switchTime = 0.1f;
 static const float VIEW_HEIGHT = 600.0f;
@@ -51,6 +56,7 @@ void resizeWindow(sf::RenderWindow &window, sf::View &view)
 
 int main()
 {
+    cout << "Controles: \n Setas direcionais movimentam \n setas+A corre" << endl;
     //Inicializa as variaveis
     float deltaTime = 0.0f;
     bool gameOpen = true;
@@ -59,40 +65,49 @@ int main()
     sf::Vector2f direction;
     int pontuacao = 0;
     int vidas = 0;
+
     //Cria a window e a view
     sf::RenderWindow game;
     sf::RenderWindow menu;
+
     //Carrega a fonte
     sf::Font font;
     font.loadFromFile("Extra/font.ttf");
+
     //Carrega a textura de alguns objetos
     sf::Texture coinTexture;
-    sf::Texture transparentTexture;
-    transparentTexture.loadFromFile(transparentTPath);
-    coinTexture.loadFromFile(coinTPath);
+    sf::Texture normalBlockTexture;
+    sf::Texture bigTubeTexture;
     sf::Texture sMushroomTexture;
     sf::Texture groundTexture;
     sf::Texture tube2Texture;
+    sf::Texture goombaTexture;
+    sf::Texture questionBlockTexture;
+    questionBlockTexture.loadFromFile(questionBlockTPath);
+    goombaTexture.loadFromFile(goombaTPath);
+    normalBlockTexture.loadFromFile(normalBlockTPath);
+    bigTubeTexture.loadFromFile(bigTubeTPath);
+    coinTexture.loadFromFile(coinTPath);
     tube2Texture.loadFromFile(tube2TPath);
     groundTexture.loadFromFile(groundTPath);
     sMushroomTexture.loadFromFile(sMushroomTPath);
 
-
-
     //Inicializa os objetos
     SoundManager sound;
     Player mario(100.0f, switchTime, 100, sf::Vector2f(16.0f,300.0f));
+    HUD hud;
+
+    //Inicializa os vetores de objetos
     vector <Coin> coins;
     vector<Platform> platforms;
-
+    vector<QuestionBlock> questionBlocks;
     vector <SuperMushroom> smushrooms;
-    platforms.push_back( Platform(groundTexture, sf::Vector2f(4800.0f,32.0f), sf::Vector2f(2400,600-16) ) );
-    platforms.push_back( Platform(transparentTexture, sf::Vector2f(40.0f, 600.0f), sf::Vector2f(-18.0f, 300.0f) ) );
-    for(int i =0; i<4; i++)
-        platforms.push_back( Platform(tube2Texture, sf::Vector2f(40.0f, 28.0f), sf::Vector2f(300.0+300*i, 600-46.0f) ) );
+    vector<NormalBlock> nblocks;
+    vector<Goomba> goombas;
 
-    HUD hud;
-    //
+
+
+
 
     //executa uma sequencia de eventos enquanto a janela esta aberta
     while(gameOpen)
@@ -185,27 +200,80 @@ int main()
         }
         else
         {
-            //Limpa os vetores e coloca o mario na posicao inicial
+            //remove todos os elementos anteriores
             coins.clear();
+            platforms.clear();
+            questionBlocks.clear();
             smushrooms.clear();
+            goombas.clear();
+            nblocks.clear();
+
+            //Coloca o mario na posicao inicial e reseta as vidas e os pontos
             mario.setPosition( sf::Vector2f(5.0f,300.0f));
             mario.setBigMario(false);
-
-            //Instancia os objetos no inicio do jogo
             vidas = 3;
             pontuacao = 0;
-            for( int i = 0; i<10; i++)
-                coins.push_back(Coin(sf::Vector2f(float(82.0 + 33.0*i), 450.0f), switchTime, coinTexture));
-            QuestionBlock quest(sf::Vector2f(100.0,500.0f));
+
+            //carrega os elementos
+            platforms.push_back( Platform(bigTubeTexture, sf::Vector2f(40.0f, 600.0f), sf::Vector2f(-18.0f, 300.0f) ) );
+            nblocks.push_back(NormalBlock(normalBlockTexture, sf::Vector2f(80.0,450.0f)));
+            nblocks.push_back(NormalBlock(normalBlockTexture, sf::Vector2f(112.0,450.0f)));
+            nblocks.push_back(NormalBlock(normalBlockTexture, sf::Vector2f(144.0,450.0f)));
+            questionBlocks.push_back(QuestionBlock(questionBlockTexture, sf::Vector2f(176.0,450.0f)));
+            nblocks.push_back(NormalBlock(normalBlockTexture, sf::Vector2f(208.0,450.0f)));
+            platforms.push_back( Platform(groundTexture, sf::Vector2f(1500.0f,32.0f), sf::Vector2f(750,600-16) ) );
+            for( int i = 0; i<3; i++)
+                coins.push_back(Coin(sf::Vector2f(float(208.0 + 33.0*i), 450.0f), switchTime, coinTexture));
+            platforms.push_back( Platform(tube2Texture, sf::Vector2f(40.0f, 28.0f), sf::Vector2f(238, 600-46.0f) ) );
+            goombas.push_back(Goomba(sf::Vector2f(390.0f,500.0f), switchTime, goombaTexture));
+            platforms.push_back( Platform(tube2Texture, sf::Vector2f(40.0f, 28.0f), sf::Vector2f(400, 600-46.0f) ) );
+            goombas.push_back(Goomba(sf::Vector2f(480.0f,500.0f), switchTime, goombaTexture));
+            for(int i=0; i<5; i++)
+            {
+                nblocks.push_back(NormalBlock(normalBlockTexture, sf::Vector2f(450+32*i,470.0f)));
+                if(i>0&& i<4)
+                    nblocks.push_back(NormalBlock(normalBlockTexture, sf::Vector2f(450+32*i,400.0f)));
+
+            }
+            questionBlocks.push_back(QuestionBlock(questionBlockTexture, sf::Vector2f(450+32*2,300.0f)));
+            for(int i = 0; i<10; i++)
+                coins.push_back(Coin(sf::Vector2f(float(600.0 + 33.0*i), 600-50.0f), switchTime, coinTexture));
+            goombas.push_back(Goomba(sf::Vector2f(670.0f,500.0f), switchTime, goombaTexture));
+            platforms.push_back( Platform(tube2Texture, sf::Vector2f(40.0f, 28.0f), sf::Vector2f(960, 600-46.0f) ) );
+
+            for(int i = 0; i<5; i++)
+            {
+                platforms.push_back( Platform(groundTexture, sf::Vector2f(32.0f,32.0f), sf::Vector2f(1500+100*i,600-16) ) );
+                for(int j = 0; j<3; j++)
+                {
+                    nblocks.push_back(NormalBlock(normalBlockTexture, sf::Vector2f(1500+100*i,600-48-33*j)));
+                }
+            }
+            for(int i= 0; i<7; i++)
+            {
+                for(int j=0; j<4; j++)
+                {
+                    coins.push_back(Coin(sf::Vector2f(float(2000.0 + 33.0*i), 450-33*j), switchTime, coinTexture));
+                }
+            }
+            platforms.push_back( Platform(groundTexture, sf::Vector2f(2000.0f,32.0f), sf::Vector2f(3200,600-16) ) );
+            for(int i = 10; i>0; i--)
+            {
+                for(int j = i; j>0; j--)
+                {
+                    nblocks.push_back(NormalBlock(normalBlockTexture, sf::Vector2f(3300+33*i,584-33*j)));
+                }
+            }
+            platforms.push_back( Platform(bigTubeTexture, sf::Vector2f(40.0f, 600.0f), sf::Vector2f(4215.0f, 300.0f) ) );
 
             //Cria a tela do jogo
             game.create(sf::VideoMode(800, 600), "Janela", sf::Style::Titlebar | sf::Style::Close);
             sf::View view(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(800.0f, 600.0f));
-            sound.playMusic("game");
 
             while (game.isOpen())
             {
                 sf::Event evento;
+                sound.playMusic("game");
                 deltaTime = clock.restart().asSeconds();
                 if (deltaTime > 1.0f / 20.f)
                     deltaTime = 1.0f / 20.0f;
@@ -232,6 +300,9 @@ int main()
                     smushrooms[i].update(deltaTime);
                 for( int i =0; i<coins.size(); i++)
                     coins[i].update(deltaTime);
+                for( int i =0; i<goombas.size(); i++)
+                    goombas[i].update(deltaTime);
+
                 //Colisoes
 
                 //colisao objetos-plataformas
@@ -240,35 +311,110 @@ int main()
                     if(mario.getCollider().checkCollision(platforms[i].getCollider(), direction, 0.0f))
                         mario.onCollision(direction);
                     for(int j = 0; j<smushrooms.size(); j++)
-                    if(smushrooms[j].getCollider().checkCollision(platforms[i].getCollider(), direction, 0.0f))
-                        smushrooms[j].onCollision(direction);
+                        if(smushrooms[j].getCollider().checkCollision(platforms[i].getCollider(), direction, 0.0f))
+                            smushrooms[j].onCollision(direction);
+                    for(int j = 0; j<goombas.size(); j++)
+                        if(goombas[j].getCollider().checkCollision(platforms[i].getCollider(), direction, 0.0f))
+                            goombas[j].onCollision(direction);
                 }
+
+                //colisao mario-moedas
                 for( int i =0; i<coins.size(); i++)
                 {
-                    if(coins[i].getCollider().checkCollision(mario.getCollider(), direction, 0.0f))
+                    if(mario.getCollider().checkCollision(coins[i].getCollider(), direction, 0.0f))
                     {
                         coins.erase(coins.begin()+i);
                         sound.playSound("coin");
                         pontuacao++;
                     }
                 }
+
+                //colisao mario-cogumelos
                 for(int i = 0; i<smushrooms.size(); i++)
                 {
-                    if(smushrooms[i].getCollider().checkCollision(mario.getCollider(), direction, 0.0f))
+                    if(mario.getCollider().checkCollision(smushrooms[i].getCollider(), direction, 0.0f))
                     {
                         smushrooms[i].onCollisionPlayer(mario);
+                        pontuacao+=100;
                         smushrooms.erase(smushrooms.begin()+i);
                     }
-
                 }
-                if(mario.getCollider().checkCollision(quest.getCollider(), direction, 0.0f))
+
+                //colisao mario-goombas
+                for(int i = 0; i<goombas.size(); i++)
                 {
-                    mario.onCollision(direction);
-                    if(quest.getActivate() && quest.onCollision(sf::Vector2f(-1*direction.x, -1*direction.y)))
-                        smushrooms.push_back(SuperMushroom(sf::Vector2f(quest.getPosition().x, quest.getPosition().y-32), 50, sMushroomTexture));
+                    if(mario.getCollider().checkCollision(goombas[i].getCollider(), direction, 0.0f))
+                    {
+                        if(goombas[i].onCollisionPlayer(sf::Vector2f(-1*direction.x, -1*direction.y), mario))
+                        {
+                            pontuacao+=150;
+                            goombas.erase(goombas.begin()+i);
 
+                        }
+                        else if(direction.y==0)
+                        {
+                            if(direction.x ==1 || direction.x == -1)
+                            {
 
+                                if(!mario.getBigMario())
+                                {
+                                    vidas--;
+                                    sound.playSound("death");
+                                    mario.setPosition(sf::Vector2f(5.0f, 300.0f));
+                                }
+                                else
+                                {
+
+                                    mario.setBigMario(false);
+                                    mario.setScale(0.83,0.83);
+                                    goombas[i].setPosition(sf::Vector2f(mario.getPosition().x+64, mario.getPosition().y));
+                                    goombas[i].bounce();
+
+                                }
+                            }
+
+                        }
+
+                    }
                 }
+
+                //colisao mario-question blocks cogumelos-questionblocks e goombas-questionblocks
+                for(int i = 0; i<questionBlocks.size(); i++)
+                {
+                    if(mario.getCollider().checkCollision(questionBlocks[i].getCollider(), direction, 0.0f))
+                    {
+                        mario.onCollision(direction);
+                        if(questionBlocks[i].getActivate() && questionBlocks[i].onCollision(sf::Vector2f(-1*direction.x, -1*direction.y)))
+                            smushrooms.push_back(SuperMushroom(sf::Vector2f(questionBlocks[i].getPosition().x, questionBlocks[i].getPosition().y-32), 50, sMushroomTexture));
+
+
+                    }
+                    for(int j = 0; j<smushrooms.size(); j++)
+                        if(smushrooms[j].getCollider().checkCollision(questionBlocks[i].getCollider(), direction, 0.0f))
+                            smushrooms[j].onCollision(direction);
+                    for(int j = 0; j<goombas.size(); j++)
+                        if(goombas[j].getCollider().checkCollision(questionBlocks[i].getCollider(), direction, 0.0f))
+                            goombas[j].onCollision(direction);
+                }
+
+                //colisao mario-normal blocks  cogumelos-normal blocks e goombas-normal blocks
+                for(int i = 0; i<nblocks.size(); i++)
+                {
+                    if(mario.getCollider().checkCollision(nblocks[i].getCollider(), direction, 0.0f))
+                    {
+                        mario.onCollision(direction);
+                        if(nblocks[i].onCollision(sf::Vector2f(-1*direction.x, -1*direction.y), mario))
+                            nblocks.erase(nblocks.begin()+i);
+                    }
+                    for(int j = 0; j<smushrooms.size(); j++)
+                        if(smushrooms[j].getCollider().checkCollision(nblocks[i].getCollider(), direction, 0.0f))
+                            smushrooms[j].onCollision(direction);
+                    for(int j = 0; j<goombas.size(); j++)
+                        if(goombas[j].getCollider().checkCollision(nblocks[i].getCollider(), direction, 0.0f))
+                            goombas[j].onCollision(direction);
+                }
+
+
                 //Controle de queda do cenario
                 if(mario.getPosition().y > 600)
                 {
@@ -292,23 +438,26 @@ int main()
                     game.close();
                     break;
                 }
-                //controle de movimento
-                /*if(mario.getPosition().x <=0.0)
-                    mario.move(sf::Vector2f(1.0f,0.0f));
-                */
+
                 //controle da view
                 view.setCenter((int)mario.getPosition().x, 300);
                 game.setView(view);
+
                 //draw
                 game.clear(sf::Color::Blue);
                 for( int i =0; i<platforms.size(); i++)
                     platforms[i].draw(game);
                 for( int i =0; i<coins.size(); i++)
                     coins[i].draw(game);
-                quest.draw(game);
-                mario.draw(game);
+                for(int i =0; i<questionBlocks.size(); i++)
+                    questionBlocks[i].draw(game);
+                for(int i =0; i<nblocks.size(); i++)
+                    nblocks[i].draw(game);
+                for(int i =0; i<goombas.size(); i++)
+                    goombas[i].draw(game);
                 for( int i =0; i<smushrooms.size(); i++)
                     smushrooms[i].draw(game);
+                mario.draw(game);
                 hud.draw(game);
                 game.display();
             }

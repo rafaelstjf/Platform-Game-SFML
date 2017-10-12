@@ -427,7 +427,7 @@
 	<SFML/Graphics.hpp>
 	<iostream>
 
-1507831586 source:c:\users\rafae\documents\github\trabalho_des_jogos\main.cpp
+1507851967 source:c:\users\rafae\documents\github\trabalho_des_jogos\main.cpp
 	<string>
 	<iostream>
 	<vector>
@@ -444,6 +444,8 @@
 	"HUD.h"
 	"SoundManager.h"
 	"QuestionBlock.h"
+	"NormalBlock.h"
+	"Goomba.h"
 
 1486736397 c:\users\rafae\documents\github\trabalho_des_jogos\sfml-2.4.2\include\sfml\audio.hpp
 	<SFML/System.hpp>
@@ -569,24 +571,25 @@
 	<iostream>
 	"Collider.h"
 
-1507597426 c:\users\rafae\documents\github\trabalho_des_jogos\player.h
+1507850877 c:\users\rafae\documents\github\trabalho_des_jogos\player.h
 	<iostream>
 	<SFML/Graphics.hpp>
 	<string>
-	<SFML/Audio.hpp>
 	"PlayerAnimation.h"
 	"Collider.h"
+	"SoundManager.h"
 
-1507831586 c:\users\rafae\documents\github\trabalho_des_jogos\supermushroom.h
+1507841820 c:\users\rafae\documents\github\trabalho_des_jogos\supermushroom.h
 	<SFML/Graphics.hpp>
 	<iostream>
 	"Collider.h"
 	"Player.h"
+	"SoundManager.h"
 
-1507827314 source:c:\users\rafae\documents\github\trabalho_des_jogos\player.cpp
+1507850877 source:c:\users\rafae\documents\github\trabalho_des_jogos\player.cpp
 	"Player.h"
 
-1507831633 source:c:\users\rafae\documents\github\trabalho_des_jogos\supermushroom.cpp
+1507847625 source:c:\users\rafae\documents\github\trabalho_des_jogos\supermushroom.cpp
 	"SuperMushroom.h"
 
 1507831586 c:\users\rafae\documents\github\trabalho_des_jogos\platform.h
@@ -604,20 +607,41 @@
 	<SFML/Graphics.hpp>
 	<iostream>
 
-1507644073 c:\users\rafae\documents\github\trabalho_des_jogos\soundmanager.h
+1507850983 c:\users\rafae\documents\github\trabalho_des_jogos\soundmanager.h
 	<SFML/Audio.hpp>
 	<iostream>
 	<string>
 
-1507644344 source:c:\users\rafae\documents\github\trabalho_des_jogos\soundmanager.cpp
+1507850770 source:c:\users\rafae\documents\github\trabalho_des_jogos\soundmanager.cpp
 	"SoundManager.h"
 
-1507828811 c:\users\rafae\documents\github\trabalho_des_jogos\questionblock.h
+1507844954 c:\users\rafae\documents\github\trabalho_des_jogos\questionblock.h
 	<SFML/Graphics.hpp>
 	<iostream>
 	"Collider.h"
 	"SuperMushroom.h"
+	"SoundManager.h"
 
-1507828811 source:c:\users\rafae\documents\github\trabalho_des_jogos\questionblock.cpp
+1507844954 source:c:\users\rafae\documents\github\trabalho_des_jogos\questionblock.cpp
 	"QuestionBlock.h"
+
+1507842961 source:c:\users\rafae\documents\github\trabalho_des_jogos\normalblock.cpp
+	"NormalBlock.h"
+
+1507842930 c:\users\rafae\documents\github\trabalho_des_jogos\normalblock.h
+	<SFML/Graphics.hpp>
+	<iostream>
+	"Collider.h"
+	"Player.h"
+	"SoundManager.h"
+
+1507852013 source:c:\users\rafae\documents\github\trabalho_des_jogos\goomba.cpp
+	"Goomba.h"
+
+1507851871 c:\users\rafae\documents\github\trabalho_des_jogos\goomba.h
+	<SFML/Graphics.hpp>
+	<iostream>
+	"Collider.h"
+	"Player.h"
+	"SoundManager.h"
 

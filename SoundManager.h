@@ -20,11 +20,15 @@ sf::Music gameMusic;
 sf::Music menuMusic;
 sf::SoundBuffer buffer;
 sf::Sound sound;
-const string jumpPath = "";
-const string menuPath = "Audio/menu.ogg";
-const string gamePath = "Audio/game.ogg";
-const string coinPath = "Audio/SFX/coin.wav";
-const string deathPath = "Audio/SFX/death.wav";
+ string menuPath = "Audio/menu.ogg";
+ string gamePath = "Audio/game.ogg";
+ string jumpPath = "Audio/SFX/jump.wav";
+ string coinPath = "Audio/SFX/coin.wav";
+ string deathPath = "Audio/SFX/death.wav";
+ string powerUpPath = "Audio/SFX/powerUp.wav";
+ string apPowerUpPath  = "Audio/SFX/apPowerUp.wav";
+string breakBlockPath  = "Audio/SFX/breakBlock.wav";
+string stompPath = "Audio/SFX/stomp.wav";
 
 };
 

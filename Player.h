@@ -4,9 +4,9 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <string>
-#include <SFML/Audio.hpp>
 #include "PlayerAnimation.h"
 #include "Collider.h"
+#include "SoundManager.h"
 using namespace std;
 class Player
 {
@@ -14,7 +14,7 @@ class Player
     sf::RectangleShape body;
     PlayerAnimation anBigMario;
     PlayerAnimation anSmallMario;
-    sf::Sound jumpSound;
+    SoundManager *sound;
     float speed;
     int row;
     bool faceRight;

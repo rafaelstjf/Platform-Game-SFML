@@ -2,6 +2,7 @@
 
 SuperMushroom::SuperMushroom(sf::Vector2f initPosition, float speed, sf::Texture& texture)
 {
+    sound = new SoundManager();
     imageCount = {1,1};
     this->speed = speed;
     this->texture = texture;
@@ -22,7 +23,7 @@ void SuperMushroom::draw(sf::RenderWindow &window)
 void SuperMushroom::update(float deltaTime)
 {
     velocity.x*=0.8;
-    if(velocity.x>0.0f)
+    if(velocity.x>=0.0f)
         velocity.x += speed;
     else
         velocity.x -=speed;
@@ -68,6 +69,7 @@ void SuperMushroom::onCollisionPlayer(Player& mario)
 {
     if(!mario.getBigMario())
     {
+        sound->playSound("powerUp");
         mario.setBigMario(true);
         mario.setScale(1.2, 1.2);
     }

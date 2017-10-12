@@ -1,20 +1,19 @@
-#ifndef QUESTIONBLOCK_H
-#define QUESTIONBLOCK_H
+#ifndef NORMALBLOCK_H
+#define NORMALBLOCK_H
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Collider.h"
-#include "SuperMushroom.h"
+#include "Player.h"
 #include "SoundManager.h"
 using namespace std;
 
-class QuestionBlock
+class NormalBlock
 {
 public:
-    QuestionBlock(sf::Texture& texture, sf::Vector2f initPosition);
-    virtual ~QuestionBlock();
-    bool getActivate();
+    NormalBlock(sf::Texture& texture, sf::Vector2f initPosition);
+    virtual ~NormalBlock();
     Collider getCollider();
-    bool onCollision(sf::Vector2f direction);
+    bool onCollision(sf::Vector2f direction, Player mario);
     void draw(sf::RenderWindow& window);
     sf::Vector2f getPosition();
 
@@ -24,7 +23,7 @@ private:
     sf::Texture texture;
     sf::RectangleShape body;
     bool activate;
-    SoundManager* sound;
+    SoundManager *sound;
 };
 
-#endif // QUESTIONBLOCK_H
+#endif // NormalBlock_H
