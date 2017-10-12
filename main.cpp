@@ -87,8 +87,9 @@ int main()
 
     vector <SuperMushroom> smushrooms;
     platforms.push_back( Platform(groundTexture, sf::Vector2f(4800.0f,32.0f), sf::Vector2f(2400,600-16) ) );
-    platforms.push_back( Platform(transparentTexture, sf::Vector2f(32.0f, 600.0f), sf::Vector2f(-16.0f, 300.0f) ) );
-    platforms.push_back( Platform(tube2Texture, sf::Vector2f(64.0f, 96.0f), sf::Vector2f(300.0f, 600-79.0f) ) );
+    platforms.push_back( Platform(transparentTexture, sf::Vector2f(40.0f, 600.0f), sf::Vector2f(-18.0f, 300.0f) ) );
+    for(int i =0; i<4; i++)
+        platforms.push_back( Platform(tube2Texture, sf::Vector2f(40.0f, 28.0f), sf::Vector2f(300.0+300*i, 600-46.0f) ) );
 
     HUD hud;
     //
