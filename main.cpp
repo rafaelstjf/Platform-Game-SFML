@@ -181,13 +181,13 @@ int main()
                 }
                 //Muda a cor do texto de acordo com a opcao selecionada
                 if(op1)
-                    textOp1.setFillColor(sf::Color::Yellow);
+                    textOp1.setColor(sf::Color::Yellow);
                 else
-                    textOp1.setFillColor(sf::Color::White);
+                    textOp1.setColor(sf::Color::White);
                 if(op2)
-                    textOp2.setFillColor(sf::Color::Yellow);
+                    textOp2.setColor(sf::Color::Yellow);
                 else
-                    textOp2.setFillColor(sf::Color::White);
+                    textOp2.setColor(sf::Color::White);
 
                 menu.clear(sf::Color::Blue);
                 menu.draw(logo);
